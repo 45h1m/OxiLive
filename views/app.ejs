@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="theme-color" content="#000">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>OxiLive</title>
+        <link rel="stylesheet" href="./styles/style.css" />
+    </head>
+    <body class="">
+
+        
+        <div id="app">
+
+                <header class="container flex row">
+        
+                    
+                    <div class="logo flex center">
+                        <img src="./favicon.ico" style="width: 32px; margin-right: 8px;" alt="app-logo">
+                        <h3>OxiLive</h3>
+                    </div>
+                    
+                    <div class="right">
+                        <div class="menu-btn" onclick="document.body.classList.toggle('menu-active')"></div>
+                    </div>
+                </header>
+                
+
+
+            <section class="welcome-section flex column p-2 email" id="welcome-section">
+
+                <h1 class="p-t-1" id="heading-text">Welcome back!</h1>
+                <p class="p-t-1">OxiLive - Realtime Health Monitoring System </p>
+
+                <form class="wrapper-box m-t-2" id="email-form">
+
+                    
+                    <div class="full-w p-t-1 flex column gap-1">
+                        <p class="opc">Continue with email</p>
+                        <input type="email" class="" placeholder="Email" id="email-input" required>
+                        <div class="flex center-y gap-1">
+                            
+                            <button id="generate-otp-btn" class="primary">Generate OTP</button>
+                            <p id="email-msg"></p>
+                        </div>
+                    </div>
+                </form>
+                
+                <form class="wrapper-box m-t-2" id="otp-form">
+                    
+                    <div class="full-w p-t-1 flex column gap-1">
+                        <h3 id="otp-msg">OTP sent to email</h3>
+                        <p class="opc">Enter OTP</p>
+                        <input type="number" class="" placeholder="OTP" id="otp-input" required>
+                        <div class="flex center-y gap-1">
+
+                            <button id="otp-verify-btn" class="primary">Verify</button>
+                            <P id="otp-err-msg"></P>
+                        </div>
+                        
+                    </div>
+                </form>
+                
+                <form class="wrapper-box m-t-2" id="signup-form">
+                    
+                    <div class="full-w p-t-1 flex column gap-1">
+                        <h3>Create Account</h3>
+                        <p class="opc">Full name*</p>
+                        <input type="text" class="" placeholder="Full Name" id="name-input" required>
+                        <p class="opc">Date of Birth*</p>
+                        <input type="date" class="" placeholder="Date of Birth" id="dob-input" required>
+                        <p class="opc">Device ID*</p>
+                        <input type="text" class="" placeholder="Device ID" id="device-input" required>
+                        <div class="flex center-y gap-1">
+
+                            <button id="signup-btn" class="primary">Get started</button>
+                            <p id="signup-msg-box"></p>
+                        </div>
+
+                    </div>
+                </form>
+            </section>
+            
+        </div>
+        
+        <section class="menu-wrapper flex">
+
+            <div class="spacer flex" onclick="document.body.classList.toggle('menu-active')"></div>
+
+            <div class="menu p-1">
+
+                <div class="profile-section wrapper-box m-t-1 hidden" id="profile-section">
+
+                    <div class="flex center gap-1" style="justify-content: flex-start;">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                          </svg>
+                        <div>
+
+                            <h3 id="profile-name">Bhopender Yogi</h3>
+                            <p id="profile-dob">28 Years</p>
+                        </div>
+                    </div>
+
+                    <div class="flex column gap-1 p-t-2">
+
+                        <p>E-mail &nbsp<strong id="profile-email">ady.ashim@gmail.com</strong></p>
+                        <p>Device &nbsp<strong id="profile-device-status">Offline</strong></p>
+                        <p>Device ID &nbsp<strong id="profile-device-id">HUHJH85U</strong></p>
+                    </div>
+
+                </div>
+
+                <div class="wrapper-box m-t-1" id="alt-profile-section">
+                    <h3>OxiLive</h3>
+                    <p class="p-t-1">Realtime Health Monitoring System</p>
+                    <button class="primary m-t-1" onclick="document.body.classList.toggle('menu-active'); document.querySelector('#email-input').focus();">Continue with email</button>
+                </div>
+
+                <ul class="p-t-2">
+                    <li>History</li>
+                    <li onclick="logout();">Logout</li>
+                    <li onclick="deleteAccount();">Delete Account</li>
+                </ul>
+            </div>
+        </section>
+
+        <div class="bg-image-wrapper">
+
+            <div class="bg-image"></div>
+        </div>
+
+        <script src="./js/app.js"></script>
+    </body>
+</html>
