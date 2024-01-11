@@ -1,7 +1,7 @@
 const $ = name => document.querySelector(name);
 const $$ = name => document.querySelectorAll(name);
 
-const host = 'http://localhost';
+const host = '';
 // const host = 'http://192.168.40.186';
 
 function init() {
