@@ -160,7 +160,7 @@ async function getUserData() {
         } else {
 
             $('#welcome-section').classList.add('signup');
-            $('#welcome-section').classList.remove('mail');
+            $('#welcome-section').classList.remove('email');
             $('#welcome-section').classList.remove('otp');
         }
 
