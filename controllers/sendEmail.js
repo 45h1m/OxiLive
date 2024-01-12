@@ -12,13 +12,14 @@ module.exports = async function sendMail(data, toEmail) {
             auth: {
                 user: process.env.EMAIL_USER,
                 pass: process.env.EMAIL_PASSWORD
-            }
+            },
+            from: process.env.EMAIL_USER,
         });
         
         
         const mailOptions = {
             from: {
-                name: "OxiLive",
+                name: "OxiLive App",
                 address: process.env.EMAIL_USER
             },
             to: toEmail,
