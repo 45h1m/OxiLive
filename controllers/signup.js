@@ -5,6 +5,7 @@ module.exports = async (req, res) => {
 
     try {
         let users = await readDB("./db/users.json");
+        let devices = await readDB("./db/devices.json");
 
         const user = users.find((user) => user.email === req.authData);
 
@@ -32,6 +33,19 @@ module.exports = async (req, res) => {
             message: "Provide all fields"
         });
 
+        const validDeviceID = devices.find(device => 
+            device.deviceID === req.body.deviceID.toUpperCase()
+            && device.email === null
+        );
+
+        if(!validDeviceID) {
+            return res.status(400).json({
+
+                error: "Invalid Device ID",
+                message: "Invalid Device ID, check again"
+            });
+        }
+
         users = users.map((user) => {
             if (user.email === req.authData) {
                 user.name = req.body.name;
@@ -44,10 +58,24 @@ module.exports = async (req, res) => {
             return user;
         });
 
+        devices = devices.map(device => {
+            if(device.deviceID === req.body.deviceID) {
+                device.email = req.authData;
+
+                return device;
+            }
+
+            return device;
+        });
+
 
         const writeStatus = await writeDB(users, "./db/users.json");
 
         console.log(writeStatus);
+        
+        const deviceWriteStatus = await writeDB(devices, "./db/devices.json");
+        
+        console.log(deviceWriteStatus);
 
         res.status(200).json({
             message: "Signup successful"
