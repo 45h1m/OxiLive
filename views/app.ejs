@@ -10,7 +10,7 @@
     <body class="">
 
         
-        <div id="app">
+        <div id="app" class="flex column">
 
                 <header class="container flex row">
         
@@ -27,10 +27,10 @@
                 
 
 
-            <section class="welcome-section flex column p-2 email" id="welcome-section">
+            <section class="welcome-section flex column p-1 email" id="welcome-section">
 
-                <h1 class="p-t-1" id="heading-text">Welcome back!</h1>
-                <p class="p-t-1">OxiLive - Realtime Health Monitoring System </p>
+                <h1 class="p-t-1 p-1" id="heading-text">Welcome back!</h1>
+                <p class="p-1">OxiLive - Realtime Health Monitoring System </p>
 
                 <form class="wrapper-box m-t-2" id="email-form">
 
@@ -80,6 +80,55 @@
                     </div>
                 </form>
             </section>
+
+            <section class="p-1" id="realtime-section">
+
+                <div class="wrapper-box">
+
+                    <div id="realtime-display">
+
+                        <div class="flex">
+
+                            <div>
+
+                                <h1 class="oxy"><small>Oxygen</small>&nbsp;<span id="oxygen-display">--</span></h1>
+                                <h1 class="bpm"><small>BPM</small>&nbsp;<span id="bpm-display">--</span></h1>
+                            </div>
+                        </div>
+                        
+                        <div class="realtime-section flex center-y">
+                            <p class="timestamp" id="realtime-timestamp">01 : 12 PM</p>
+                            <div id="realtime-indicator"></div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="p-1" id="no-data-found">
+                
+                <div class="wrapper-box">
+    
+                    <h4>Turn your device on for realtime data</h4>
+                </div>
+            </section>
+
+            <section class="p-1" id="history">
+
+                <div class="wrapper-box">
+
+                    <h5>History</h5>
+    
+                    <ul class="p-t-1" id="available-date-list">
+                        <li>01/01/2024</li>
+                        <li>01/01/2024</li>
+                        <li>01/01/2024</li>
+                        <li>01/01/2024</li>
+                    </ul>
+
+                </div>
+
+            </section>
             
         </div>
         
@@ -120,9 +169,9 @@
                 </div>
 
                 <ul class="p-t-2">
-                    <li>History</li>
+                    <li onclick="getHistory();">History</li>
                     <li onclick="logout();">Logout</li>
-                    <li onclick="deleteAccount();">Delete Account</li>
+                    <!-- <li onclick="deleteAccount();">Delete Account</li> -->
                 </ul>
             </div>
         </section>
@@ -132,6 +181,7 @@
             <div class="bg-image"></div>
         </div>
 
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script src="./js/app.js"></script>
     </body>
 </html>

@@ -34,7 +34,7 @@ module.exports = async (req, res) => {
         });
 
         const validDeviceID = devices.find(device => 
-            device.deviceID === req.body.deviceID.toUpperCase()
+            device.deviceID === req.body.deviceID.toUpperCase().trim()
             && device.email === null
         );
 

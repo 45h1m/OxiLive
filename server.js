@@ -3,8 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const accountRouter = require('./routes/Account');
-const authorize = require('./controllers/authorize');
-const sendData = require('./controllers/sendData');
+const deviceRouter = require('./routes/Device');
 
 require('dotenv').config();
 
@@ -17,8 +16,8 @@ app.use(bodyParser.json());
 app.set('view engine', 'ejs');
 app.use(logError);
 app.use('/account', accountRouter);
+app.use('/device', deviceRouter);
 
-app.get('/data', authorize, sendData);
 app.get('*', (req, res) => res.status(200).render('app'));
 
 

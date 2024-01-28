@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <style>
+            * {
+                box-sizing: border-box;
+                font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+                    "Helvetica Neue", sans-serif;
+            }
+            body {
+                background: black;
+            }
+
+            #chart_div {
+                opacity: 0.7;
+            }
+
+            .oxi-graph {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                aspect-ratio: 2 / 1;
+                max-height: 400px;
+            }
+
+            .oxi-graph::before {
+                content: "Oxygen";
+                position: absolute;
+                width: min-content;
+                color: white;
+                left: 0;
+                rotate: -90deg;
+                font-size: 0.7rem;
+                top: 20%;
+            }
+
+            .oxi-graph::after {
+                content: "BPM";
+                position: absolute;
+                width: min-content;
+                color: white;
+                left: 1rem;
+                background: none;
+                rotate: -90deg;
+                font-size: 0.7rem;
+                bottom: 40%;
+            }
+
+            .oxi-graph .layer {
+                width: 100%;
+                position: relative;
+                aspect-ratio: 2 / 1;
+                max-height: 300px;
+                padding: 1rem;
+                padding-left: 2rem;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                gap: 1px;
+            }
+
+            .oxi-graph .layer::before {
+                content: "Time";
+                position: absolute;
+                color: white;
+                font-size: 0.7rem;
+                bottom: 0;
+                left: 6rem;
+            }
+
+            .oxi-graph .layer .bar {
+                flex: 1;
+                height: 100%;
+                position: relative;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .oxi-graph .layer .bar::before,
+            ::after {
+                content: "";
+                position: absolute;
+                width: 100%;
+                height: calc(var(--x2) / 2);
+                background: rgba(236, 46, 100, 0.858);
+                transform: translateY(-50%);
+            }
+
+            .oxi-graph .layer .bar::after {
+                height: calc(var(--x1) / 2);
+                background: rgba(43, 190, 235, 0.849);
+                transform: translateY(50%);
+            }
+
+            .oxi-graph .layer .bar.active {
+                background: white;
+            }
+
+            .oxi-graph .layer .bar.active::before {
+                background: white;
+            }
+            .oxi-graph .layer .bar.active::after {
+                background: white;
+            }
+
+            .oxi-graph .display {
+                color: white;
+                padding-top: 1rem;
+            }
+
+            .oxi-graph .display .oxy {
+                color: rgba(255, 96, 96, 0.858);
+            }
+
+            .oxi-graph .display .bpm {
+                color: rgba(96, 202, 255, 0.858);
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Hie Jiyu</h1>
+        <div class="whatever"></div>
+        <div class="anything"></div>
+
+        <script>
+            function renderGraph(data, elem) {
+
+                data = data.map((data) => {
+                    return [data[0], parseInt(data[1]), parseInt(data[2])];
+                });
+
+                elem.classList.add("oxi-graph");
+                elem.innerHTML = `<div class="layer"></div>
+                    <div class="display">
+                    <p><span class="timestamp">-</span> &nbsp; Oxygen <strong class="oxy">-</strong> &nbsp; BPM <strong class="bpm">-</strong></p>
+                    </div>`;
+
+                const layer = elem.querySelector(".layer");
+
+                data.forEach((data) => {
+                    layer.innerHTML += `<div class="bar" graph-data="${data}" style="--x2: ${mapNumber(data[1], 0, 200, 0, 100)}%; --x1: ${mapNumber(
+                        data[2],
+                        0,
+                        200,
+                        0,
+                        100
+                    )}%"></div>`;
+                });
+
+                let lastElem = null;
+
+                layer.ontouchmove = (e) => {
+                    e.preventDefault();
+                    const touchX = event.touches[0].clientX;
+                    const touchY = event.touches[0].clientY;
+
+                    const elementUnderTouch = document.elementFromPoint(touchX, touchY);
+
+                    if (elementUnderTouch.classList.contains("bar") && elementUnderTouch.parentNode.parentNode == elem) {
+                        if (lastElem) lastElem.classList.remove("active");
+
+                        elementUnderTouch.classList.add("active");
+                        lastElem = elementUnderTouch;
+
+                        const data = elementUnderTouch.getAttribute("graph-data").split(",");
+
+                        elem.querySelector(".timestamp").innerHTML = data[0];
+                        elem.querySelector(".oxy").innerHTML = data[1];
+                        elem.querySelector(".bpm").innerHTML = data[2];
+                    }
+                };
+
+                function mapNumber(value, fromMin, fromMax, toMin, toMax) {
+                    value = Math.min(Math.max(value, fromMin), fromMax);
+
+                    const percentage = (value - fromMin) / (fromMax - fromMin);
+
+                    const result = toMin + percentage * (toMax - toMin);
+
+                    return result;
+                }
+            }
+
+            let data = [
+                ["11:23:55 PM", "148", "167"],
+                ["11:24:45 PM", "99", "117"],
+                ["11:24:55 PM", "102", "176"],
+                ["11:25:05 PM", "168", "106"],
+                ["11:25:15 PM", "124", "131"],
+                ["11:25:20 PM", "165", "177"],
+                ["11:25:25 PM", "185", "135"],
+                ["11:25:35 PM", "54", "128"],
+                ["11:25:46 PM", "220", "200"],
+                ["11:24:45 PM", "99", "117"],
+                ["11:24:55 PM", "102", "176"],
+                ["11:25:05 PM", "168", "106"],
+                ["11:25:15 PM", "124", "131"],
+                ["11:25:20 PM", "165", "177"],
+                ["11:25:25 PM", "185", "135"],
+                ["11:25:35 PM", "54", "128"],
+                ["11:25:46 PM", "220", "107"],
+                ["11:24:00 PM", "130", "168"],
+                ["11:24:05 PM", "63", "169"],
+                ["11:24:15 PM", "162", "176"],
+                ["11:24:25 PM", "83", "136"],
+                ["11:24:35 PM", "225", "118"],
+                ["11:24:45 PM", "99", "117"],
+                ["11:24:55 PM", "102", "176"],
+                ["11:25:05 PM", "168", "106"],
+                ["11:25:15 PM", "124", "131"],
+                ["11:24:45 PM", "99", "117"],
+                ["11:24:55 PM", "102", "176"],
+                ["11:25:05 PM", "168", "106"],
+                ["11:25:15 PM", "124", "131"],
+                ["11:25:20 PM", "165", "177"],
+                ["11:25:25 PM", "185", "135"],
+                ["11:25:35 PM", "54", "128"],
+                ["11:25:46 PM", "220", "107"],
+                ["11:25:20 PM", "165", "177"],
+                ["11:25:25 PM", "185", "135"],
+                ["11:25:35 PM", "54", "128"],
+                ["11:25:46 PM", "220", "107"],
+                ["11:23:55 PM", "148", "167"],
+                ["11:24:45 PM", "99", "117"],
+                ["11:24:55 PM", "102", "176"],
+                ["11:25:05 PM", "168", "106"],
+                ["11:25:15 PM", "124", "131"],
+                ["11:25:20 PM", "165", "177"],
+                ["11:25:25 PM", "185", "135"],
+                ["11:25:35 PM", "54", "128"],
+                ["11:25:46 PM", "220", "107"],
+                ["11:24:45 PM", "99", "117"],
+                ["11:24:55 PM", "102", "176"],
+                ["11:25:05 PM", "168", "106"],
+                ["11:25:15 PM", "124", "131"],
+                ["11:25:20 PM", "165", "177"],
+                ["11:25:25 PM", "185", "135"],
+                ["11:25:35 PM", "54", "128"],
+                ["11:25:46 PM", "220", "107"],
+                ["11:24:00 PM", "130", "168"],
+                ["11:24:05 PM", "63", "169"],
+                ["11:24:15 PM", "162", "176"],
+                ["11:24:25 PM", "83", "136"],
+                ["11:24:35 PM", "225", "118"],
+                ["11:24:45 PM", "99", "117"],
+                ["11:24:55 PM", "102", "176"],
+                ["11:25:05 PM", "168", "106"],
+                ["11:25:15 PM", "124", "131"],
+                ["11:24:45 PM", "99", "117"],
+                ["11:24:55 PM", "102", "176"],
+                ["11:25:05 PM", "168", "106"],
+                ["11:25:15 PM", "124", "131"],
+                ["11:25:20 PM", "165", "177"],
+                ["11:25:25 PM", "185", "135"],
+                ["11:25:35 PM", "54", "128"],
+                ["11:25:46 PM", "220", "107"],
+                ["11:25:20 PM", "165", "177"],
+                ["11:25:25 PM", "185", "135"],
+                ["11:25:35 PM", "54", "128"],
+                ["11:25:46 PM", "220", "107"],
+                ["11:23:55 PM", "148", "167"],
+                ["11:24:45 PM", "99", "117"],
+                ["11:24:55 PM", "102", "176"],
+                ["11:25:05 PM", "168", "106"],
+                ["11:25:15 PM", "124", "131"],
+                ["11:25:20 PM", "165", "177"],
+                ["11:25:25 PM", "185", "135"],
+                ["11:25:35 PM", "54", "128"],
+                ["11:25:46 PM", "220", "200"],
+                ["11:24:45 PM", "99", "117"],
+                ["11:24:55 PM", "102", "176"],
+                ["11:25:05 PM", "168", "106"],
+                ["11:25:15 PM", "124", "131"],
+                ["11:25:20 PM", "165", "177"],
+                ["11:25:25 PM", "185", "135"],
+                ["11:25:35 PM", "54", "128"],
+                ["11:25:46 PM", "220", "107"],
+                ["11:24:00 PM", "130", "168"],
+                ["11:24:05 PM", "63", "169"],
+                ["11:24:15 PM", "162", "176"],
+                ["11:24:25 PM", "83", "136"],
+                ["11:24:35 PM", "225", "118"],
+                ["11:24:45 PM", "99", "117"],
+                ["11:24:55 PM", "102", "176"],
+                ["11:25:05 PM", "168", "106"],
+                ["11:25:15 PM", "124", "131"],
+                ["11:24:45 PM", "99", "117"],
+                ["11:24:55 PM", "102", "176"],
+                ["11:25:05 PM", "168", "106"],
+                ["11:25:15 PM", "124", "131"],
+                ["11:25:20 PM", "165", "177"],
+                ["11:25:25 PM", "185", "135"],
+                ["11:25:35 PM", "54", "128"],
+                ["11:25:46 PM", "220", "107"],
+                ["11:25:20 PM", "165", "177"],
+                ["11:25:25 PM", "185", "135"],
+                ["11:25:35 PM", "54", "128"],
+                ["11:25:46 PM", "220", "107"],
+                ["11:23:55 PM", "148", "167"],
+                ["11:24:45 PM", "99", "117"],
+                ["11:24:55 PM", "102", "176"],
+                ["11:25:05 PM", "168", "106"],
+                ["11:25:15 PM", "124", "131"],
+                ["11:25:20 PM", "165", "177"],
+                ["11:25:25 PM", "185", "135"],
+                ["11:25:35 PM", "54", "128"],
+                ["11:25:46 PM", "220", "107"],
+                ["11:24:45 PM", "99", "117"],
+                ["11:24:55 PM", "102", "176"],
+                ["11:25:05 PM", "168", "106"],
+                ["11:25:15 PM", "124", "131"],
+                ["11:25:20 PM", "165", "177"],
+                ["11:25:25 PM", "185", "135"],
+                ["11:25:35 PM", "54", "128"],
+                ["11:25:46 PM", "220", "107"],
+                ["11:24:00 PM", "130", "168"],
+                ["11:24:05 PM", "63", "169"],
+                ["11:24:15 PM", "162", "176"],
+                ["11:24:25 PM", "83", "136"],
+                ["11:24:35 PM", "225", "118"],
+                ["11:24:45 PM", "99", "117"],
+                ["11:24:55 PM", "102", "176"],
+                ["11:25:05 PM", "168", "106"],
+                ["11:25:15 PM", "124", "131"],
+                ["11:24:45 PM", "99", "117"],
+                ["11:24:55 PM", "102", "176"],
+                ["11:25:05 PM", "168", "106"],
+                ["11:25:15 PM", "124", "131"],
+                ["11:25:20 PM", "165", "177"],
+                ["11:25:25 PM", "185", "135"],
+                ["11:25:35 PM", "54", "128"],
+                ["11:25:46 PM", "220", "107"],
+                ["11:25:20 PM", "165", "177"],
+                ["11:25:25 PM", "185", "135"],
+                ["11:25:35 PM", "54", "128"],
+                ["11:25:46 PM", "220", "107"],
+            ];
+
+
+            renderGraph(data, document.querySelector(".whatever"));
+            renderGraph(data, document.querySelector(".anything"));
+        </script>
+    </body>
+</html>

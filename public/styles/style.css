@@ -70,6 +70,10 @@ body {
 .m-b-1 {margin-bottom: 1rem;}
 .m-b-2 {margin-bottom: 2rem;}
 
+.m-l-1 {
+    margin-left: 1rem;
+}
+
 .center {
     align-items: center;
     justify-content: center;
@@ -154,13 +158,13 @@ body.menu-active .menu-wrapper {
     height: 100%;
 }
 
-.menu ul li {
+ul li {
     list-style: none;
     padding: 1rem;
     cursor: pointer;
 }
 
-.menu ul li:not(:last-of-type) {
+ul li:not(:last-of-type) {
     border-bottom: 2px solid rgba(128, 128, 128, 0.305);
 }
 
@@ -235,6 +239,167 @@ button.primary {
     border-radius: 50px;
     width: fit-content;
     cursor: pointer;
+}
+
+#history {
+    display: none;
+}
+#no-data-found {
+    display: none;
+}
+
+.oxi-graph {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    aspect-ratio: 2 / 1;
+    max-height: 400px;
+}
+
+.oxi-graph::before {
+    content: "Oxygen";
+    position: absolute;
+    width: min-content;
+    color: white;
+    left: 0;
+    rotate: -90deg;
+    font-size: 0.7rem;
+    top: 20%;
+}
+
+.oxi-graph::after {
+    content: "BPM";
+    position: absolute;
+    width: min-content;
+    color: white;
+    left: 1rem;
+    background: none;
+    rotate: -90deg;
+    font-size: 0.7rem;
+    bottom: 40%;
+}
+
+.oxi-graph .layer {
+    width: 100%;
+    position: relative;
+    aspect-ratio: 2 / 1;
+    max-height: 300px;
+    padding-bottom: 1rem;
+    padding-left: 2.5rem;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    gap: 1px;
+}
+
+.oxi-graph .layer::before {
+    content: "Time";
+    position: absolute;
+    color: white;
+    font-size: 0.7rem;
+    bottom: 0;
+    left: 6rem;
+}
+
+.oxi-graph .layer .bar {
+    flex: 1;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.oxi-graph .layer .bar::before,
+::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: calc(var(--x2) / 2);
+    background: rgba(239, 83, 127, 0.859);
+    transform: translateY(-50%);
+}
+
+.oxi-graph .layer .bar::after {
+    height: calc(var(--x1) / 2);
+    background: rgba(98, 203, 235, 0.805);
+    transform: translateY(50%);
+}
+
+.oxi-graph .layer .bar.active {
+    background: white;
+}
+
+.oxi-graph .layer .bar.active::before {
+    background: white;
+}
+.oxi-graph .layer .bar.active::after {
+    background: white;
+}
+
+.oxi-graph .display {
+    color: white;
+    padding-top: 2rem;
+}
+
+.oxi-graph .display .oxy {
+    color: rgba(255, 96, 96, 0.858);
+}
+
+.oxi-graph .display .bpm {
+    color: rgba(96, 202, 255, 0.858);
+}
+
+#realtime-section {
+    display: none;
+}
+
+#realtime-display {
+    position: relative;
+}
+
+#realtime-display h1 {
+    font-size: 2rem;
+}
+
+#realtime-display small {
+    font-size: 0.8rem;
+    opacity: 0.7;
+    font-weight: 200;
+    color: white;
+}
+
+#realtime-display .oxy span {
+    color: rgba(255, 96, 136, 0.858);
+}
+
+#realtime-display .bpm span {
+    color: rgba(96, 242, 255, 0.858);
+}
+
+#realtime-display #realtime-indicator {
+    width: 0.7rem;
+    height: 0.7rem;
+    background: rgb(39, 228, 39);
+    border-radius: 50px;
+    opacity: 0;
+    transition: 4000ms ease;
+}
+
+#realtime-display #realtime-indicator.active {
+    opacity: 1;
+    transition: none;
+}
+
+#realtime-display .realtime-section {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    gap: 1rem;
 }
 
 .bg-image-wrapper {

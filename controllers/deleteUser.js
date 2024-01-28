@@ -1,5 +1,7 @@
 const readDB = require('./readDB');
 const writeDB = require('./writeDB');
+const readDir = require('./readDir');
+const deleteDB = require('./deleteDB');
 
 module.exports = async function(req, res){
 
@@ -7,6 +9,9 @@ module.exports = async function(req, res){
         
         let users = await readDB('./db/users.json');
         let devices = await readDB('./db/devices.json');
+
+        const device = devices.find(device => device.email === req.authData);
+        const id = device.deviceID;
 
         users = users.filter(user => user.email !== req.authData.trim());
 
@@ -18,6 +23,12 @@ module.exports = async function(req, res){
             }
 
             return device;
+        });
+
+        const files = await readDir('./db/device_data/'+ id+'/');
+        
+        if(files.length > 0) files.forEach(async file => {
+            console.log(file);
         });
 
         const writeStatus = await writeDB(users, './db/users.json');
