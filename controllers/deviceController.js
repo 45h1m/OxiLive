@@ -56,7 +56,7 @@ async function writeData() {
     }
 }
 
-setTimeout(writeData, 1000 * 120);
+setInterval(writeData, 1000 * 120);
 
 function updateData(req, res) {
 

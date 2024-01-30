@@ -6,8 +6,8 @@ setInterval(()=> {
     const oxygen = Math.floor(97 + Math.random() * 100).toString();
 
     var options = {
-      host: 'localhost',
-      path: '/device/update/HR6754JE8?bpm='+ bpm +'&oxygen='+oxygen,
+      host: 'oxilive.ap-1.evennode.com',
+      path: '/device/update/HR1364JE8?bpm='+ bpm +'&oxygen='+oxygen,
     };
 
     var req = http.get(options, function(res) {
@@ -30,4 +30,4 @@ setInterval(()=> {
       console.log('ERROR: ' + e);
     });
 
-}, 5000);
+}, 3000);
