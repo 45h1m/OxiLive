@@ -40,8 +40,6 @@ __
 
 ```sh
 npm i
-or
-npm install
 ```
 
 ### 4. Start Local Server
