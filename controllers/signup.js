@@ -1,5 +1,6 @@
 const readDB = require("../controllers/readDB");
 const writeDB = require("../controllers/writeDB");
+const deviceController = require('../controllers/deviceController');
 
 module.exports = async (req, res) => {
 
@@ -76,6 +77,8 @@ module.exports = async (req, res) => {
         const deviceWriteStatus = await writeDB(devices, "./db/devices.json");
         
         console.log(deviceWriteStatus);
+
+        deviceController.initDeviceList();
 
         res.status(200).json({
             message: "Signup successful"

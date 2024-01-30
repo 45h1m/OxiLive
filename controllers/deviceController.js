@@ -9,13 +9,22 @@ async function initDeviceList() {
     try {
         const devices = await readDB("./db/devices.json");
 
+        const currentISTDate = getISTDateTime().split(',')[0].trim();
+
+        let preSavedData = null;
+
         devices.map(async (device) => {
+
+            if(fs.existsSync(`./db/device_data/${device.deviceID}/${currentISTDate}.json`)) {
+
+                preSavedData = await readDB(`./db/device_data/${device.deviceID}/${currentISTDate}.json`);
+            }
 
             realtimeData.push({
                 deviceID: device.deviceID,
                 email: device.email,
                 status: false,
-                data: [],
+                data: preSavedData ? preSavedData : [],
             });
         });
     } catch (err) {
@@ -170,6 +179,12 @@ function sendRealtime(req, res) {
 
     const device = realtimeData.find(device => device.email === req.authData);
 
+    if(!device) return res.status(404).json({
+        error: "No data found",
+        message: "No data found",
+        status: 404
+    });
+    
     if(device.data.length <= 0) {
 
         return res.status(404).json({
@@ -192,4 +207,4 @@ function getISTDateTime() {
     return istDateTime;
 };
 
-module.exports = { updateData, sendDates, sendSpecific, sendRealtime };
+module.exports = { updateData, sendDates, sendSpecific, sendRealtime, initDeviceList };
