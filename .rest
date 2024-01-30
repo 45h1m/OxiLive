@@ -1,7 +1,0 @@
-POST http://localhost/account/verify
-Content-Type: application/json
-
-{
-    "email": "ady.ashim@gmail.com",
-    "otp": "4266"
-}

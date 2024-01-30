@@ -1,33 +1,43 @@
-var http = require('http');
+const host = 'localhost';
 
-setInterval(()=> {
-    
-    const bpm = Math.floor(50 + Math.random() * 180).toString();
-    const oxygen = Math.floor(97 + Math.random() * 100).toString();
+const devices = [{"deviceID":"HR1364JE8","email":null},{"deviceID":"HR64J1RE8","email":null},{"deviceID":"HR6754JE8","email":null},{"deviceID":"HR67565E8","email":null}];
 
-    var options = {
-      host: 'oxilive.ap-1.evennode.com',
-      path: '/device/update/HR1364JE8?bpm='+ bpm +'&oxygen='+oxygen,
-    };
+setInterval(() => {
 
-    var req = http.get(options, function(res) {
-      console.log('STATUS: ' + res.statusCode);
-      console.log('HEADERS: ' + JSON.stringify(res.headers));
-    
-      // Buffer the body entirely for processing as a whole.
-      var bodyChunks = [];
-      res.on('data', function(chunk) {
-        // You can process streamed parts here...
-        bodyChunks.push(chunk);
-      }).on('end', function() {
-        var body = Buffer.concat(bodyChunks);
-        console.log('BODY: ' + body);
-        // ...and/or process the entire body here.
-      })
-    });
-    
-    req.on('error', function(e) {
-      console.log('ERROR: ' + e);
-    });
+  devices.forEach(async device => {
 
+    const rand = Math.floor(Math.random() * 101);
+    const rand2 = Math.floor(Math.random() * 101);
+
+    try {
+      
+      const res = await makeGET(`http://${host}/device/update/${device.deviceID}?oxygen=${rand}&bpm=${rand2}`);
+      console.log(res);
+      
+    } catch (err) {
+      
+      console.log(err);
+    }
+
+
+  });
 }, 3000);
+
+function makeGET(url) {
+
+  return new Promise(async (resolve, reject) => {
+
+    try {
+      
+      const res = await fetch(url, {method: 'GET'});
+
+      const data = res.text();
+
+      resolve(data);
+
+    } catch (err) {
+
+      reject(err);
+    }
+  })
+}

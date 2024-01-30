@@ -56,7 +56,7 @@ async function writeData() {
     }
 }
 
-setInterval(writeData, 1000 * 120);
+setInterval(writeData, 1000 * 60);
 
 function updateData(req, res) {
 
@@ -80,7 +80,7 @@ function updateData(req, res) {
 
     realtimeData = realtimeData.map(device => {
 
-        if(device.deviceID === deviceID) {
+        if(device.deviceID === deviceID && device.email) {
 
             const currentIST = getISTDateTime().split(',')[1].trim();
             
@@ -114,6 +114,11 @@ async function sendDates(req, res) {
 
         const device = realtimeData.find(device => device.email === req.authData);
 
+        if(!device) return res.status(400).json({
+            error: "Something went wrong",
+            message: "Something went wrong"
+        });
+
         const deviceID = device.deviceID;
         
         const directories = await readDir('./db/device_data');
@@ -145,6 +150,10 @@ async function sendDates(req, res) {
 async function sendSpecific(req, res) {
 
     const device = realtimeData.find(device => device.email === req.authData);
+
+    if(!device) return res.status(401).json({
+        error: "No data found"
+    });
 
     const deviceID = device.deviceID;
 
