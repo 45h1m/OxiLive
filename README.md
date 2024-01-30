@@ -4,7 +4,7 @@
 
 ### Frontend
  - Vanilla Javascript, CSS, HTML | __Single page App__
- - Custom __touch-reactive-graph__ to show saved
+ - Custom __touch-reactive-graph__ to show saved data
  - Modern UI
 
 ### Backend
