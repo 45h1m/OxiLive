@@ -1,6 +1,6 @@
 
 # [![N|Solid](https://raw.githubusercontent.com/45h1m/OxiLive/main/public/favicon.ico)](https://nodesource.com/products/nsolid) OxiLive
-## Realtime Oxygen & BPM Monitoring App
+## Realtime Blood-Oxygen & BPM Monitoring App
 
 ### Frontend
  - Vanilla Javascript, CSS, HTML | __Single page App__
