@@ -1,7 +1,7 @@
 const readDB = require("../controllers/readDB");
 const writeDB = require("../controllers/writeDB");
 const readDir = require('./readDir');
-
+const fs = require('fs');
 let realtimeData = [];
 
 
@@ -32,6 +32,11 @@ async function writeData() {
     try {
         
         realtimeData.forEach(async device => {
+
+            if(!fs.existsSync(`./db/device_data/${device.deviceID}`)) {
+
+                fs.mkdirSync(`./db/device_data/${device.deviceID}`, { recursive: true });
+            }
 
             const writeStatus = await writeDB(device.data, `./db/device_data/${device.deviceID}/${currentISTDate}.json`);
             console.log(writeStatus);
