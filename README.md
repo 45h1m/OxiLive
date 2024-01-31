@@ -17,6 +17,8 @@
  
 ## Setup & Running App (localhost)
 
+> __Prerequisite:__ Node JS & NPM Installed
+
 #### 1. Cloning repository to local 
 ```sh
 git clone https://github.com/45h1m/OxiLive.git
@@ -28,7 +30,7 @@ Here you put all private & sensitive information as environment variables. eg:
 ```sh
 EMAIL_USER=oxilive.app@gmail.com
 EMAIL_PASSWORD="app password of gmail"
-JWT_SECRET=IFHJ34Y879RYHUIFH3YR38
+JWT_SECRET=I34Y879RYHUIHHHYFH3YR38
 ```
 ##### __EMAIL_USER__ From the email OTP will be sent
 ##### __EMAIL_PASSWORD__ Add new app in email account with new password
